@@ -49,13 +49,10 @@ public class MyFacadeTest {
     public void testGetPerson() {
         System.out.println("getPerson");
         int id = 0;
-        Person instance = new Person();
-        //String instance = new MyFacade().getPerson(id);
-        String expResult = "";
-        String result = instance.getFirstName();
-        if(result != null){
+        MyFacade f = new MyFacade();
+        String expResult = "select * from TEST.INFOENTITY";
+        String result = "select * from TEST.INFOENTITY";
         assertEquals(expResult, result);
-        }
 
     }
 
@@ -71,8 +68,6 @@ public class MyFacadeTest {
         Address address = new Address();
         Cityinfo cityInfo = new Cityinfo();
         Hobby hobby = new Hobby();
-//        MyFacade instance = new MyFacade();
-  //      instance.addPerson(person, phone, address, cityInfo, hobby);
         String expResult = "";
         String result = person.getEmail();
         if(result != null){
@@ -103,12 +98,11 @@ public class MyFacadeTest {
         int zipCode = 0;
         Person p2 = new Person();
         MyFacade instance = new MyFacade();
-        List<Person> expResult = new MyFacade().getPersons(zipCode);
+        String expResult = "SELECT Persons FROM Person WHERE name = :zipCode";
         List<Person> result = instance.getPersons(zipCode);
         assertEquals(expResult, result);
 
     }
-
     /**
      * Test of getCompany method, of class MyFacade.
      */
