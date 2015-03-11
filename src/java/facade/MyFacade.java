@@ -128,5 +128,17 @@ public class MyFacade {
         em.close();
         return c;
     }
+    
+    public String getZip()
+    {
+        em = emf.createEntityManager();
+        String q = "SELECT cityinfo FROM Cityinfo cityinfo";
+        List<Cityinfo> list = em.createQuery(q).getResultList();
+        em.close();
+        
+         String jsonStr = gson.toJson(list);
+         
+         return jsonStr;
+    }
 
 }
