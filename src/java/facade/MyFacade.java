@@ -1,5 +1,6 @@
 package facade;
 
+import DTO.PersonDTO;
 import entity.*;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -97,19 +98,27 @@ public class MyFacade {
  
         em = emf.createEntityManager();
         String q = "select infoentity from Person infoentity ";
-
         List<Person> list = em.createQuery(q).getResultList();
-       
+                  
+        List<PersonDTO> listDTO = new ArrayList<>();
+        for (Person p : list) {
+            
+            // List<Phone> Phones, String zipcode, String city
+            PersonDTO dto = new PersonDTO(p.getFirstName(), p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity());
+            for (Hobby h : p.Gethobby()){ 
+                if(h.equals( null)){
+                 dto.addHobby(h.getName(), h.getDescription());
+                }
+           }
+            for(Phone phone : p.getPhones()) dto.addPhone(""+phone.getNumber(), phone.getDescription());
+            listDTO.add(dto);
+        }
 
-           // String json = new Gson().toJson(list);
-            System.out.println(list);
-      
-       
+           String json = new Gson().toJson(listDTO);
 
-        // gson.toJson(list);
    
         em.close();
-        return "";
+        return json;
 
     }
 
@@ -132,7 +141,7 @@ public class MyFacade {
     public String getZip()
     {
         em = emf.createEntityManager();
-        String q = "SELECT cityinfo FROM Cityinfo cityinfo";
+        String q = "SELECT cityinfo.city,cityinfo.zipcode FROM Cityinfo cityinfo";
         List<Cityinfo> list = em.createQuery(q).getResultList();
         em.close();
         
@@ -140,5 +149,14 @@ public class MyFacade {
          
          return jsonStr;
     }
-
+    
+    public String GetAllPersonsWhoLivesInZipcode(String zipcode)
+    {
+        em = emf.createEntityManager();
+        String q = "select p from Person p where p.address.cityinfo.zipcode=:zipCode";
+        List<Person> list = em.createQuery(q).setParameter("zipCode", zipcode).getResultList();
+        em.close();
+        return "";
+    }
+  
 }

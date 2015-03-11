@@ -32,7 +32,10 @@ public class Person extends InfoEntity implements Serializable {
     
     public Person() {
     }
-
+    public List<Hobby> Gethobby()
+    {
+       return hobbys;
+    }
     public Person(String email, String firstName, String lastName) {
         super(email);
         this.firstName = firstName;

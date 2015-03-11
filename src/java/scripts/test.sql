@@ -11,5 +11,5 @@ VALUES (4,'4tv','Amagerbrogade','2300');
 
 
 INSERT INTO InfoEntity(ID,DTYPE,EMAIL,ADDRESS_ID,FIRSTNAME,LASTNAME)
-VALUES (1,'Person','PERSON1@1.DK',1,'bruger 1', 'bruger 1 efternavn');
+VALUES (2,'Person','PERSON2@2.DK',2,'bruger 2', 'bruger 2 efternavn');
 
