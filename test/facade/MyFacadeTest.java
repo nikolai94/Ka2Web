@@ -48,11 +48,9 @@ public class MyFacadeTest {
     @Test
     public void testGetPerson() {
         System.out.println("getPerson");
-
         int id = 0;
         Person instance = new Person();
         //String instance = new MyFacade().getPerson(id);
-
         String expResult = "";
         String result = instance.getFirstName();
         if(result != null){
@@ -90,10 +88,10 @@ public class MyFacadeTest {
     public void testGetPersons_0args() {
         System.out.println("getPersons");
         MyFacade instance = new MyFacade();
-        String expResult = "";
+        Person p = new Person();
+        String expResult = p.getFirstName();
         String result = instance.getPersons();
         assertEquals(expResult, result);
-
     }
 
     /**
@@ -103,6 +101,7 @@ public class MyFacadeTest {
     public void testGetPersons_int() {
         System.out.println("getPersons");
         int zipCode = 0;
+        Person p2 = new Person();
         MyFacade instance = new MyFacade();
         List<Person> expResult = new MyFacade().getPersons(zipCode);
         List<Person> result = instance.getPersons(zipCode);
