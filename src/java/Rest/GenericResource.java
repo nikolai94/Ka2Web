@@ -5,6 +5,7 @@
  */
 package Rest;
 
+import facade.MyFacade;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -19,12 +20,13 @@ import javax.ws.rs.Produces;
  *
  * @author petersodborgchristensen
  */
-@Path("generic")
+@Path("")
 public class GenericResource {
 
     @Context
     private UriInfo context;
 
+    MyFacade facade = new MyFacade();
     /**
      * Creates a new instance of GenericResource
      */
@@ -36,10 +38,10 @@ public class GenericResource {
      * @return an instance of java.lang.String
      */
     @GET
+    @Path("getzip")
     @Produces("application/json")
-    public String getJson() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
+    public String getJsonZip() {
+        return facade.getZip();
     }
 
     /**

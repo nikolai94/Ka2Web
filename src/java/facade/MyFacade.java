@@ -132,7 +132,7 @@ public class MyFacade {
     public String getZip()
     {
         em = emf.createEntityManager();
-        String q = "SELECT cityinfo FROM Cityinfo cityinfo";
+        String q = "SELECT cityinfo.city,cityinfo.zipcode FROM Cityinfo cityinfo";
         List<Cityinfo> list = em.createQuery(q).getResultList();
         em.close();
         
