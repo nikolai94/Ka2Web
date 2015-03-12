@@ -82,7 +82,7 @@ public class PersonDTO {
      hobbies.add(new Hobby(name, description));
    }
    
-   public void addPhone(String number, String description){
+   public void addPhone(Integer number, String description){
        Phones.add(new Phone(number, description));
    }
     
@@ -98,10 +98,10 @@ public class PersonDTO {
    }
    
    public static class Phone {
-       String number;
+       Integer number;
        String description;
 
-        public String getNumber() {
+        public Integer getNumber() {
             return number;
         }
 
@@ -110,7 +110,7 @@ public class PersonDTO {
         }
        
 
-        public Phone(String number, String description) {
+        public Phone(Integer number, String description) {
             this.number = number;
             this.description = description;
         }

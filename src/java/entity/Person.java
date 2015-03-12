@@ -6,6 +6,7 @@
 package entity;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Person extends InfoEntity implements Serializable {
   
 
     
-    @ManyToMany(mappedBy = "listPerson",fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy = "listPerson",fetch=FetchType.EAGER, cascade = CascadeType.PERSIST) 
     private List<Hobby> hobbys;
    
     

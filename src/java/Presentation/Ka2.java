@@ -30,24 +30,24 @@ public class Ka2 {
 //        f.addPerson(p, phone, add, cityInfo, hobby);
         
         
-        
+        f.getZip();
 
    
         //System.out.println("testGetPersonOnId:"+  f.getPerson(1) );
-        PersonDTO p = new PersonDTO("firstname", "lastname", "street", "aditionalinfo", "email", "zipcode","city");
+        PersonDTO p = new PersonDTO("firstname", "lastname", "street", "aditionalinfo", "email", "1600","city");
         
-        p.addPhone("bla bla", "blejaijiad");
+        p.addPhone(111111, "blejaijiad");
         p.addHobby("addhobby1", "aksdokaosd");
-        p.addPhone("bla bla2", "blejaijiad222");
+        p.addPhone(222222, "blejaijiad222");
         p.addHobby("addhobby2", "aksdokaosd");
         
-        f.addPersonDto(p);
+       // f.addPersonDto(p);
         
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
         
-        String test = gson.toJson(p);
+       // String test = gson.toJson(p);
         
-        PersonDTO po = gson.fromJson(test, PersonDTO.class);
+     //   PersonDTO po = gson.fromJson(test, PersonDTO.class);
         
         //f.getAllPersonsOnHobby("hobby 2");
         

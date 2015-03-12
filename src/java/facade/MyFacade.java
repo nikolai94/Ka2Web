@@ -1,5 +1,6 @@
 package facade;
 
+import DTO.CityinfoDTO;
 import DTO.PersonDTO;
 import entity.*;
 import java.util.List;
@@ -93,15 +94,21 @@ public class MyFacade {
         Person person = new Person(dto.getEmail(), dto.getFirstname(), dto.getLastname());
         for (DTO.PersonDTO.Phone phone : dto.getPhones()) {
             //Phone phone = new Phone(dto.getPhones().get(i));
-            Phone p = new Phone(Integer.parseInt(phone.getNumber()), phone.getDescription());
+            Phone p = new Phone(phone.getNumber(), phone.getDescription());
             person.addPhone(p);
 
         }
-        Address a = new Address();
+        Address a = new Address(dto.getStreet(),dto.getAdditionalinfo());
         a.setCityinfo(getCityInfo(dto.getZipcode()));
+                
         
-        
-        
+       // try {
+            em.getTransaction().begin();
+            em.persist(person);
+            em.getTransaction().commit();
+        //} catch (Exception e) {
+          //  em.getTransaction().rollback();
+        //}
         
         
         em.close();
@@ -134,7 +141,7 @@ public class MyFacade {
                 dto.addHobby(h.getName(), h.getDescription());
             }
             for (Phone phone : p.getPhones()) {
-                dto.addPhone("" + phone.getNumber(), phone.getDescription());
+                dto.addPhone(phone.getNumber(), phone.getDescription());
             }
 
             listDTO.add(dto);
@@ -166,12 +173,20 @@ public class MyFacade {
 
     public String getZip() {
         em = emf.createEntityManager();
-        String q = "SELECT cityinfo.city,cityinfo.zipcode FROM Cityinfo cityinfo";
+      //String q = "SELECT cityinfo.city,cityinfo.zipcode FROM Cityinfo cityinfo";
+        String q = "SELECT cityinfo FROM Cityinfo cityinfo";
+        
         List<Cityinfo> list = em.createQuery(q).getResultList();
+        List<CityinfoDTO> listdto = new ArrayList<>();
+        System.out.println(list);
+        for (Cityinfo ci : list) {
+            CityinfoDTO cityinfodto = new CityinfoDTO(ci.getZipcode(),ci.getCity());
+            listdto.add(cityinfodto);
+        }
         em.close();
 
-        String jsonStr = gson.toJson(list);
-
+        String jsonStr = gson.toJson(listdto);
+        System.out.println(jsonStr);
         return jsonStr;
     }
 
@@ -188,7 +203,7 @@ public class MyFacade {
                 DTO.addHobby(h.getName(), h.getDescription());
             }
             for (Phone phone : p.getPhones()) {
-                DTO.addPhone("" + phone.getNumber(), phone.getDescription());
+                DTO.addPhone(phone.getNumber(), phone.getDescription());
             }
 
             personDTO.add(DTO);
