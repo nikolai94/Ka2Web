@@ -31,10 +31,6 @@ public class MyFacade {
         
         Person p2 = em.find(Person.class, id);
     
-         //p2.getAddress().toString();
-         
-      
-        
         JsonObject jo = new JsonObject();
         jo.addProperty("firstName", p2.getFirstName());
         jo.addProperty("lastName", p2.getLastName());
@@ -52,8 +48,7 @@ public class MyFacade {
         phones.add(phone1);
         jo.add("phones", phones);
         String jsonStr = gson.toJson(jo);
-       // System.out.println("StringJson: "+jsonStr);
- 
+    
          return jsonStr;
        
        
@@ -106,11 +101,10 @@ public class MyFacade {
             // List<Phone> Phones, String zipcode, String city
             PersonDTO dto = new PersonDTO(p.getFirstName(), p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity());
             for (Hobby h : p.Gethobby()){ 
-                if(h.equals( null)){
                  dto.addHobby(h.getName(), h.getDescription());
-                }
            }
             for(Phone phone : p.getPhones()) dto.addPhone(""+phone.getNumber(), phone.getDescription());
+            
             listDTO.add(dto);
         }
 
@@ -122,13 +116,14 @@ public class MyFacade {
 
     }
 
-    public List<Person> getPersons(int zipCode) {
+    public String getPersons(int zipCode) {
         em = emf.createEntityManager();
         String q = "SELECT Persons FROM Person WHERE name = :zipCode";
 
         List<Person> list = em.createQuery(q).getResultList();
+        String json = new Gson().toJson(list);
         em.close();
-        return list;
+        return json;
     }
 
     public Company getCompany(int cvr) {
@@ -155,8 +150,39 @@ public class MyFacade {
         em = emf.createEntityManager();
         String q = "select p from Person p where p.address.cityinfo.zipcode=:zipCode";
         List<Person> list = em.createQuery(q).setParameter("zipCode", zipcode).getResultList();
+       
+        List<PersonDTO> personDTO = new ArrayList<>();
+        for (Person p : list) {
+            PersonDTO DTO = new PersonDTO(p.getFirstName(),p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity() );
+            
+            for (Hobby h : p.Gethobby()) {
+                DTO.addHobby(h.getName(), h.getDescription());
+            }
+            for (Phone phone : p.getPhones()) {
+                DTO.addPhone(""+phone.getNumber(), phone.getDescription());
+            }
+        
+            personDTO.add(DTO);
+        }
+        
         em.close();
-        return "";
+        
+        String json = gson.toJson(personDTO);
+        return json;
+    }
+    
+    
+    public String getAllPersonsOnHobby(String HobbyName){
+    
+          em = emf.createEntityManager();
+          
+          String query = "select h from Person h WHERE h.Gethobby.name=:hobbyName";
+          List<Person> list = em.createQuery(query).setParameter("hobbyName", HobbyName).getResultList();
+          
+          em.close();
+          
+        
+        return list.toString();
     }
   
 }

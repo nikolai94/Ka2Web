@@ -7,6 +7,7 @@ package DTO;
 
 import entity.Hobby;
 import entity.Phone;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,9 +19,9 @@ public class PersonDTO {
     private String lastname;
     private String street;
     private String additionalinfo;
-    private List<Hobby>  hobbies;
+    private List<Hobby> hobbies = new ArrayList<>();
     private String email;
-    private List<Phone> Phones;
+    private List<Phone> Phones = new ArrayList<>();
     private String zipcode;
     private String city;
 

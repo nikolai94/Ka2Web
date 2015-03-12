@@ -44,6 +44,34 @@ public class GenericResource {
         return facade.getZip();
     }
 
+    
+    @GET
+    @Path("getPersonOnZip/{zip}")
+    @Produces("application/json")
+    public String getJsonGetPersonOnZip(@PathParam("zip") String zip) {
+        return zip;
+    }
+    
+    
+    
+    
+    @GET
+    @Path("complete")
+    @Produces("application/json")
+    public String getJsonGetAllPersons() {
+         return facade.getPersons();
+    }
+    
+    
+    @GET
+    @Path("complete/{id}")
+    @Produces("application/json")
+    public String getJsonGetPersonOnId(@PathParam("id") int id) {
+         return facade.getPerson(id);
+    }
+
+    
+    
     /**
      * PUT method for updating or creating an instance of GenericResource
      * @param content representation for the resource

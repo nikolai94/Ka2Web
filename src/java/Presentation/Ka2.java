@@ -27,10 +27,20 @@ public class Ka2 {
 //        
 //        f.addPerson(p, phone, add, cityInfo, hobby);
    
-      //  f.getPerson(1);
-     //  System.out.println("person " +f.GetAllPersonsWhoLivesInZipcode("1600"));
-       System.out.println(f.getPersons());
-     //  System.out.println(f.getZip() + " all zips");
+        //System.out.println("testGetPersonOnId:"+  f.getPerson(1) );
+
+        
+        
+        f.getAllPersonsOnHobby("hobby 2");
+        
+        
+        
+      //System.out.println("person " +f.GetAllPersonsWhoLivesInZipcode("1600"));
+   
+
+
+   // System.out.println(f.getPersons());
+      // System.out.println(f.getZip() + " all zips");
         //System.out.println("Person"+  p2);
         //System.out.println(p2.getAddress().toString());
     }

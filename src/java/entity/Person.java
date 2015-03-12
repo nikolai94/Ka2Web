@@ -36,6 +36,8 @@ public class Person extends InfoEntity implements Serializable {
     {
        return hobbys;
     }
+    
+    
     public Person(String email, String firstName, String lastName) {
         super(email);
         this.firstName = firstName;
