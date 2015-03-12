@@ -35,6 +35,13 @@ public class PersonDTO {
         this.city = city;
     }
 
+    @Override
+    public String toString() {
+        return "PersonDTO{" + "firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", additionalinfo=" + additionalinfo + ", hobbies=" + hobbies + ", email=" + email + ", Phones=" + Phones + ", zipcode=" + zipcode + ", city=" + city + '}';
+    }
+    
+    
+
    public void addHobby(String name, String description){
      hobbies.add(new Hobby(name, description));
    }
