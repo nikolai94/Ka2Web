@@ -5,6 +5,8 @@
  */
 package Presentation;
 
+import DTO.PersonDTO;
+import com.google.gson.Gson;
 import entity.*;
 import facade.MyFacade;
 
@@ -26,12 +28,28 @@ public class Ka2 {
 //        Hobby hobby = new Hobby("Fodbold","Arsenal er bedst");
 //        
 //        f.addPerson(p, phone, add, cityInfo, hobby);
+        
+        
+        
+
    
         //System.out.println("testGetPersonOnId:"+  f.getPerson(1) );
-
+        PersonDTO p = new PersonDTO("firstname", "lastname", "street", "aditionalinfo", "email", "zipcode","city");
         
+        p.addPhone("bla bla", "blejaijiad");
+        p.addHobby("addhobby1", "aksdokaosd");
+        p.addPhone("bla bla2", "blejaijiad222");
+        p.addHobby("addhobby2", "aksdokaosd");
         
-        f.getAllPersonsOnHobby("hobby 2");
+        f.addPersonDto(p);
+        
+        Gson gson = new Gson();
+        
+        String test = gson.toJson(p);
+        
+        PersonDTO po = gson.fromJson(test, PersonDTO.class);
+        
+        //f.getAllPersonsOnHobby("hobby 2");
         
         
         

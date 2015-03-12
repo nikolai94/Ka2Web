@@ -35,6 +35,7 @@ public class GenericResource {
     }
 
     //list af zip codes
+   //færdig
     @GET
     @Path("getzip")
     @Produces("application/json")
@@ -44,19 +45,17 @@ public class GenericResource {
     }
 
     //get alle persons som bor i en given by
+    //færdig
     @GET
-    @Path("getPersonOnZip/{zip}")
+    @Path("getpersononzip/{zip}")
     @Produces("application/json")
     public String getJsonGetPersonOnZip(@PathParam("zip") String zip) {
         
         return facade.GetAllPersonsWhoLivesInZipcode(zip);
-        
-        
+  
     }
-    
-    
-    
-    
+    //personer med en given hobby
+    //færdig
     @GET
     @Path("complete")
     @Produces("application/json")
@@ -64,28 +63,25 @@ public class GenericResource {
          return facade.getPersons();
     }
     
-    
+    //person med en given id
+    //færdig
     @GET
     @Path("complete/{id}")
     @Produces("application/json")
     public String getJsonGetPersonOnId(@PathParam("id") int id) {
          return facade.getPerson(id);
     }
-    
+
+   
     //opret person
     @POST
     @Path("opretperson")
     @Produces("application/json")
     public String opretPerson(String str) {
-       MyFacade f = new MyFacade();
        
        Gson gson = new Gson();
        PersonDTO dto = gson.fromJson(str, PersonDTO.class);
-       
-       
-              
-       
-        
+
        return dto + ""; 
     }
     

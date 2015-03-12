@@ -35,6 +35,42 @@ public class PersonDTO {
         this.city = city;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getAdditionalinfo() {
+        return additionalinfo;
+    }
+
+    public List<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public List<Phone> getPhones() {
+        return Phones;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
     @Override
     public String toString() {
         return "PersonDTO{" + "firstname=" + firstname + ", lastname=" + lastname + ", street=" + street + ", additionalinfo=" + additionalinfo + ", hobbies=" + hobbies + ", email=" + email + ", Phones=" + Phones + ", zipcode=" + zipcode + ", city=" + city + '}';
@@ -64,6 +100,15 @@ public class PersonDTO {
    public static class Phone {
        String number;
        String description;
+
+        public String getNumber() {
+            return number;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+       
 
         public Phone(String number, String description) {
             this.number = number;

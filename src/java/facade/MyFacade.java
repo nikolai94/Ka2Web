@@ -20,7 +20,8 @@ public class MyFacade {
 
     EntityManagerFactory emf;
     EntityManager em;
- Gson gson;
+    Gson gson;
+
     public MyFacade() {
         emf = Persistence.createEntityManagerFactory("Ka2NewPU");
         gson = new Gson();
@@ -28,9 +29,9 @@ public class MyFacade {
 
     public String getPerson(int id) {
         em = emf.createEntityManager();
-        
+
         Person p2 = em.find(Person.class, id);
-    
+
         JsonObject jo = new JsonObject();
         jo.addProperty("firstName", p2.getFirstName());
         jo.addProperty("lastName", p2.getLastName());
@@ -41,20 +42,19 @@ public class MyFacade {
         jo.addProperty("city", p2.getAddress().getCityinfo().getCity());
         JsonArray phones = new JsonArray();
         JsonObject phone1 = new JsonObject();
-        for (int i = 0; i < p2.getPhones().size(); i++) {  
+        for (int i = 0; i < p2.getPhones().size(); i++) {
             phone1.addProperty("number", p2.getPhones().get(i).getNumber());
             phone1.addProperty("description", p2.getPhones().get(i).getDescription());
         }
         phones.add(phone1);
         jo.add("phones", phones);
         String jsonStr = gson.toJson(jo);
-    
-         return jsonStr;
-       
-       
+
+        return jsonStr;
+
     }
 
-    public void addPerson(Person person, Phone phone, Address address, Cityinfo cityInfo,Hobby hobby) {
+    public void addPerson(Person person, Phone phone, Address address, Cityinfo cityInfo, Hobby hobby) {
         em = emf.createEntityManager();
 
         try {
@@ -64,22 +64,21 @@ public class MyFacade {
             person.addPhone(phone);
 
             person.addAddress(address);
-            
 
             address.addCityInfo(cityInfo);
-            
+
             hobby.addPerson(person);
-            
+
             em.persist(person);
-           
+
             em.persist(phone);
-            
+
             em.persist(address);
-            
+
             em.persist(cityInfo);
-            
+
             em.persist(hobby);
-            
+
             em.getTransaction().commit();
 
         } catch (Exception e) {
@@ -89,28 +88,60 @@ public class MyFacade {
 
     }
 
+    public void addPersonDto(PersonDTO dto) {
+        em = emf.createEntityManager();
+        Person person = new Person(dto.getEmail(), dto.getFirstname(), dto.getLastname());
+        for (DTO.PersonDTO.Phone phone : dto.getPhones()) {
+            //Phone phone = new Phone(dto.getPhones().get(i));
+            Phone p = new Phone(Integer.parseInt(phone.getNumber()), phone.getDescription());
+            person.addPhone(p);
+
+        }
+        Address a = new Address();
+        a.setCityinfo(getCityInfo(dto.getZipcode()));
+        
+        
+        
+        
+        
+        em.close();
+
+    }
+    
+    public Cityinfo getCityInfo(String zip){
+        em = emf.createEntityManager();
+
+        try {
+            return em.find(Cityinfo.class, zip);
+
+        } finally {
+            em.close();   
+        }
+    }
+
     public String getPersons() {
- 
+
         em = emf.createEntityManager();
         String q = "select infoentity from Person infoentity ";
         List<Person> list = em.createQuery(q).getResultList();
-                  
+
         List<PersonDTO> listDTO = new ArrayList<>();
         for (Person p : list) {
-            
+
             // List<Phone> Phones, String zipcode, String city
             PersonDTO dto = new PersonDTO(p.getFirstName(), p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity());
-            for (Hobby h : p.Gethobby()){ 
-                 dto.addHobby(h.getName(), h.getDescription());
-           }
-            for(Phone phone : p.getPhones()) dto.addPhone(""+phone.getNumber(), phone.getDescription());
-            
+            for (Hobby h : p.Gethobby()) {
+                dto.addHobby(h.getName(), h.getDescription());
+            }
+            for (Phone phone : p.getPhones()) {
+                dto.addPhone("" + phone.getNumber(), phone.getDescription());
+            }
+
             listDTO.add(dto);
         }
 
-           String json = new Gson().toJson(listDTO);
+        String json = new Gson().toJson(listDTO);
 
-   
         em.close();
         return json;
 
@@ -132,57 +163,53 @@ public class MyFacade {
         em.close();
         return c;
     }
-    
-    public String getZip()
-    {
+
+    public String getZip() {
         em = emf.createEntityManager();
         String q = "SELECT cityinfo.city,cityinfo.zipcode FROM Cityinfo cityinfo";
         List<Cityinfo> list = em.createQuery(q).getResultList();
         em.close();
-        
-         String jsonStr = gson.toJson(list);
-         
-         return jsonStr;
+
+        String jsonStr = gson.toJson(list);
+
+        return jsonStr;
     }
-    
-    public String GetAllPersonsWhoLivesInZipcode(String zipcode)
-    {
+
+    public String GetAllPersonsWhoLivesInZipcode(String zipcode) {
         em = emf.createEntityManager();
         String q = "select p from Person p where p.address.cityinfo.zipcode=:zipCode";
         List<Person> list = em.createQuery(q).setParameter("zipCode", zipcode).getResultList();
-       
+
         List<PersonDTO> personDTO = new ArrayList<>();
         for (Person p : list) {
-            PersonDTO DTO = new PersonDTO(p.getFirstName(),p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity() );
-            
+            PersonDTO DTO = new PersonDTO(p.getFirstName(), p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity());
+
             for (Hobby h : p.Gethobby()) {
                 DTO.addHobby(h.getName(), h.getDescription());
             }
             for (Phone phone : p.getPhones()) {
-                DTO.addPhone(""+phone.getNumber(), phone.getDescription());
+                DTO.addPhone("" + phone.getNumber(), phone.getDescription());
             }
-        
+
             personDTO.add(DTO);
         }
-        
+
         em.close();
-        
+
         String json = gson.toJson(personDTO);
         return json;
     }
-    
-    
-    public String getAllPersonsOnHobby(String HobbyName){
-    
-          em = emf.createEntityManager();
-          
-          String query = "select h from Person h WHERE h.Gethobby.name=:hobbyName";
-          List<Person> list = em.createQuery(query).setParameter("hobbyName", HobbyName).getResultList();
-          
-          em.close();
-          
-        
+
+    public String getAllPersonsOnHobby(String HobbyName) {
+
+        em = emf.createEntityManager();
+
+        String query = "select h from Person h WHERE h.Gethobby.name=:hobbyName";
+        List<Person> list = em.createQuery(query).setParameter("hobbyName", HobbyName).getResultList();
+
+        em.close();
+
         return list.toString();
     }
-  
+
 }

@@ -44,6 +44,9 @@ public class InfoEntity implements Serializable {
     public InfoEntity(String email) {
         this.email = email;
     }
+
+    
+    
     
    
     
