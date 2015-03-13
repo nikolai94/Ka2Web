@@ -60,7 +60,7 @@ public class MyFacade {
 
    
 
-    public void addPersonDto(PersonDTO dto) {
+    public void addPersonDto(PersonDTO dto) throws EntityNotFoundException{
         em = emf.createEntityManager();
         Person person = new Person(dto.getEmail(), dto.getFirstname(), dto.getLastname());
      
@@ -102,7 +102,7 @@ public class MyFacade {
         }
     }
 
-    public String getPersons() {
+    public String getPersons() throws EntityNotFoundException{
 
         em = emf.createEntityManager();
         String q = "select infoentity from Person infoentity ";
@@ -132,7 +132,7 @@ public class MyFacade {
 
    
 
-    public String getZip() {
+    public String getZip() throws EntityNotFoundException{
         em = emf.createEntityManager();
       //String q = "SELECT cityinfo.city,cityinfo.zipcode FROM Cityinfo cityinfo";
         String q = "SELECT cityinfo FROM Cityinfo cityinfo";
@@ -156,8 +156,10 @@ public class MyFacade {
         
         
         if(list == null || list.size() == 0){
-            throw new EntityNotFoundException("dkasodkoaskd");
-        } 
+            throw new EntityNotFoundException("Ikke fundet " + zipcode);
+        }else{
+            
+         
         List<PersonDTO> personDTO = new ArrayList<>();
         for (Person p : list) {
             PersonDTO DTO = new PersonDTO(p.getFirstName(), p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity());
@@ -171,14 +173,15 @@ public class MyFacade {
 
             personDTO.add(DTO);
         }
-
+        
         em.close();
 
         String json = gson.toJson(personDTO);
         return json;
+        }
     }
 
-    public String getAllPersonsOnHobby(String HobbyName) {
+    public String getAllPersonsOnHobby(String HobbyName) throws EntityNotFoundException {
 
         em = emf.createEntityManager();
 

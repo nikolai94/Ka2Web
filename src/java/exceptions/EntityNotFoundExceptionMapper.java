@@ -13,19 +13,26 @@ import static oracle.jdbc.OracleDriver.isDebug;
 
 @Provider
 public class EntityNotFoundExceptionMapper implements ExceptionMapper<EntityNotFoundException> {
-static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-@Context
-ServletContext context;
-@Override
-public Response toResponse(EntityNotFoundException ex) {
-//boolean isDebug = context.getInitParameter("debug").equals("true");
-ErrorMessage err = new ErrorMessage(ex,404,isDebug);
-err.setDescription("You tried to call ...");
-return Response.status(404)
-.entity(gson.toJson(err))
-.type(MediaType.APPLICATION_JSON).
-build();
-}
+    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    @Context
+    ServletContext context;
+
+    @Override
+    public Response toResponse(EntityNotFoundException ex) {
+    boolean isDebug = true;//context.getInitParameter("debug").equals("true");
+    ErrorMessage err = new ErrorMessage(ex,404,isDebug);
+    err.getCode();
+    err.getMessage();
+    err.setDescription("Du prøvede at kalde....");
+    err.getDescription();
+    err.getStackTrace();
+    
+    
+    return Response.status(404)
+    .entity(gson.toJson(err))
+    .type(MediaType.APPLICATION_JSON).
+    build();
+    }
 
 
 }
