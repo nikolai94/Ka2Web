@@ -25,8 +25,59 @@ $("document").ready(function (){
  $("#findAllPerson").click(findAllPerson);
  $("#findAllZip").click(findAllZips);
  $("#submit_personOnId").click(findPersonOnId);
+ $("#inputPersonSubmit").click(addPeron);
+ $("#sletKnap").click(sletKnap);
 
 });
+
+
+function sletKnap(){
+    var id = $( '#inputSletId' ).val();
+      var request = $.ajax({
+      url : "api/delperson/"+id,
+      type: 'DELETE'
+      });
+      
+     request.done(function(){
+         
+     });   
+     
+       request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+       });    
+     
+}
+
+
+function addPeron(){
+    
+      var inputFirstName = $( '#inputFirstName' ).val();
+      var inputLastName = $( '#inputLastName' ).val();
+      var inputStreet = $( '#inputStreet' ).val();
+      var inputAdditionalinfo = $( '#inputAdditionalinfo' ).val();
+      var inputEmail = $( '#inputEmail' ).val();
+      var inputZipcode = $( '#inputZipcode' ).val();
+      var inputCity = $( '#inputCity' ).val();
+      var inputPhone = $( '#inputPhone' ).val();
+      var inputHobby = $( '#inputHobby' ).val();
+      
+      
+      var toJson = {"firstname": inputFirstName, "lastname": inputLastName, "street":inputStreet, "additionalinfo": inputAdditionalinfo,"email":inputEmail,"zipcode":""+inputZipcode,"city": inputCity };
+      toJson = JSON.stringify(toJson);
+      
+      var request = $.ajax({
+      url : "api/opretperson",
+      dataType : "json",
+      data : toJson,
+      contentType : 'application/json; charset=UTF-8',
+      type : "POST"
+      });
+       
+      findAllPerson();
+        
+       
+      
+} 
 
 
 function findPersonOnId(){
@@ -67,7 +118,7 @@ function findAllZips(){
          }
      }); 
         request.fail(function( jqXHR, textStatus ) {
-            alert( "Request failed: " + textStatus );
+            alert( "Request failed: " + jqXHR.responseText);
        });
     
 }
@@ -118,7 +169,10 @@ function findOnZip(){
       });            
 
       request.fail(function( jqXHR, textStatus ) {
-            alert( "Request failed: " + textStatus );
+            // console.log(jqXHR.responseText);
+         
+          
+            alert( "Request failed: " + jqXHR.responseText);
        });
          
 }
@@ -168,7 +222,7 @@ function findAllPerson (){
       });            
 
       request.fail(function( jqXHR, textStatus ) {
-            alert( "Request failed: " + textStatus );
+            alert( "Request failed: " + jqXHR.responseText);
        });
 
 }

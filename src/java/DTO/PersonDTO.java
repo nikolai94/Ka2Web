@@ -35,6 +35,10 @@ public class PersonDTO {
         this.city = city;
     }
 
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
     public String getFirstname() {
         return firstname;
     }

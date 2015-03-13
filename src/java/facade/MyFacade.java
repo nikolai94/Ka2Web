@@ -64,16 +64,19 @@ public class MyFacade {
         em = emf.createEntityManager();
         Person person = new Person(dto.getEmail(), dto.getFirstname(), dto.getLastname());
      
-        for (DTO.PersonDTO.Phone phone : dto.getPhones()) {
-            //Phone phone = new Phone(dto.getPhones().get(i));
-            Phone p = new Phone(phone.getNumber(), phone.getDescription());
-            p.AddPhoneToInfoEntity(person);
-           person.addPhone(p);
+        
+        if(dto.getPhones() != null){
+                for (DTO.PersonDTO.Phone phone : dto.getPhones()) {
+                    //Phone phone = new Phone(dto.getPhones().get(i));
+                    Phone p = new Phone(phone.getNumber(), phone.getDescription());
+                    p.AddPhoneToInfoEntity(person);
+                   person.addPhone(p);
 
+                }
         }
         Address a = new Address(dto.getStreet(),dto.getAdditionalinfo());
         
-        a.addCityInfo(em.find(Cityinfo.class,dto.getZipcode() ));
+        a.addCityInfo(em.find(Cityinfo.class,""+dto.getZipcode() ));
         person.setAddress(a);
           
         
@@ -100,6 +103,16 @@ public class MyFacade {
         } finally {
             em.close();   
         }
+    }
+    
+      public void delPerson(int id){
+            em = emf.createEntityManager();
+            Person person = em.find(Person.class, id);
+            em.getTransaction().begin();
+            em.remove(person);
+            em.getTransaction().commit();
+            em.close(); 
+    
     }
 
     public String getPersons() throws EntityNotFoundException{

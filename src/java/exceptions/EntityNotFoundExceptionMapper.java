@@ -23,7 +23,7 @@ public class EntityNotFoundExceptionMapper implements ExceptionMapper<EntityNotF
     ErrorMessage err = new ErrorMessage(ex,404,isDebug);
     err.getCode();
     err.getMessage();
-    err.setDescription("Du prøvede at kalde....");
+    err.setDescription("Ikke fundet i databasen....");
     err.getDescription();
     err.getStackTrace();
     

@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import entity.*;
 import exceptions.EntityNotFoundException;
 import facade.MyFacade;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -17,6 +18,8 @@ import facade.MyFacade;
  */
 public class Ka2 {
     public static void main(String[] args) throws EntityNotFoundException {
+        
+        Persistence.generateSchema("Ka2NewPU", null);
         MyFacade f = new MyFacade();
 //        
 //        Person p = new Person("a@b.dk","test1", "test2");
@@ -38,15 +41,17 @@ public class Ka2 {
         
         
         
-        PersonDTO p = new PersonDTO("firstname", "lastname", "street", "aditionalinfo", "email", "1600","city");
-        
+        PersonDTO p = new PersonDTO("firstname11", "lastname22", "street", "aditionalinfo", "email", "1600","city");
+       /* 
         p.addPhone(111111, "blejaijiad");
         p.addHobby("addhobby1", "aksdokaosd");
         p.addPhone(222222, "blejaijiad222");
         p.addHobby("addhobby2", "aksdokaosd");
+        */
+      //  f.addPersonDto(p);
         
-       // f.addPersonDto(p);
         
+       // f.delPerson(601);
         
         
         
@@ -61,11 +66,11 @@ public class Ka2 {
         
         
         
-      System.out.println("person " +f.GetAllPersonsWhoLivesInZipcode("1600"));
+    //  System.out.println("person " +f.GetAllPersonsWhoLivesInZipcode("1600"));
    
 
 
-   // System.out.println(f.getPersons());
+    //System.out.println(f.getPersons());
       // System.out.println(f.getZip() + " all zips");
         //System.out.println("Person"+  p2);
         //System.out.println(p2.getAddress().toString());
