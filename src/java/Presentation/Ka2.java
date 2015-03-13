@@ -8,6 +8,7 @@ package Presentation;
 import DTO.PersonDTO;
 import com.google.gson.Gson;
 import entity.*;
+import exceptions.EntityNotFoundException;
 import facade.MyFacade;
 
 /**
@@ -15,7 +16,7 @@ import facade.MyFacade;
  * @author jones
  */
 public class Ka2 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EntityNotFoundException {
         MyFacade f = new MyFacade();
 //        
 //        Person p = new Person("a@b.dk","test1", "test2");

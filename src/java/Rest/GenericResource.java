@@ -1,7 +1,8 @@
-package rest;
+package Rest;
 import DTO.PersonDTO;
 import com.google.gson.Gson;
 import entity.*;
+import exceptions.EntityNotFoundException;
 import facade.MyFacade;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -48,9 +49,10 @@ public class GenericResource {
     @GET
     @Path("getpersononzip/{zip}")
     @Produces("application/json")
-    public String getJsonGetPersonOnZip(@PathParam("zip") String zip) {
-        
+    public String getJsonGetPersonOnZip(@PathParam("zip") String zip)throws EntityNotFoundException {
+
         return facade.GetAllPersonsWhoLivesInZipcode(zip);
+
   
     }
     //personer med en given hobby
@@ -67,7 +69,7 @@ public class GenericResource {
     @GET
     @Path("complete/{id}")
     @Produces("application/json")
-    public String getJsonGetPersonOnId(@PathParam("id") int id) {
+    public String getJsonGetPersonOnId(@PathParam("id") int id) throws EntityNotFoundException {
          return facade.getPerson(id);
     }
 
@@ -105,5 +107,28 @@ public class GenericResource {
      facade.addPersonDto(g.fromJson(jsonPerson, PersonDTO.class));
     
   }
+
+    @Path("/users/{id}")
+    @GET
+    public Response getUserBId  ( @PathParam("id") String id ) throws EntityNotFoundException
+    {
+        //validate mandatory field
+        if(id == null)
+        {
+            throw new EntityNotFoundException("Idét eksisterer ikke");
+        }
+        //Validate proper format
+        try
+        {
+            Integer.parseInt(id);
+        }
+        catch(NumberFormatException e)
+        {
+            throw new EntityNotFoundException("id er ikke et nummer !!");
+        }
+        //Process the request
+        return Response.ok().entity("User with ID " + id + " fundet !!").build();
+    }
+
     
 }

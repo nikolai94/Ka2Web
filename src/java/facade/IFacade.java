@@ -1,9 +1,11 @@
 package facade;
+
+
 /**
  *
  * @author petersodborgchristensen
  */
-public interface IFacade {
-    
-    
+public interface IFacade { 
+
 }
+

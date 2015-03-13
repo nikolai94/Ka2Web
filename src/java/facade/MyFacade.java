@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import exceptions.EntityNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -28,11 +29,13 @@ public class MyFacade {
         gson = new Gson();
     }
 
-    public String getPerson(int id) {
+    public String getPerson(int id) throws EntityNotFoundException {
         em = emf.createEntityManager();
 
         Person p2 = em.find(Person.class, id);
-
+        if(p2 == null){
+            throw new EntityNotFoundException("Entity with " + id + " not found");
+        }
         JsonObject jo = new JsonObject();
         jo.addProperty("firstName", p2.getFirstName());
         jo.addProperty("lastName", p2.getLastName());
@@ -146,11 +149,15 @@ public class MyFacade {
         return jsonStr;
     }
 
-    public String GetAllPersonsWhoLivesInZipcode(String zipcode) {
+    public String GetAllPersonsWhoLivesInZipcode(String zipcode) throws EntityNotFoundException {
         em = emf.createEntityManager();
         String q = "select p from Person p where p.address.cityinfo.zipcode=:zipCode";
         List<Person> list = em.createQuery(q).setParameter("zipCode", zipcode).getResultList();
-
+        
+        
+        if(list == null || list.size() == 0){
+            throw new EntityNotFoundException("dkasodkoaskd");
+        } 
         List<PersonDTO> personDTO = new ArrayList<>();
         for (Person p : list) {
             PersonDTO DTO = new PersonDTO(p.getFirstName(), p.getLastName(), p.getAddress().getStreet(), p.getAddress().getAdditionalInfo(), p.getEmail(), p.getAddress().getCityinfo().getZipcode(), p.getAddress().getCityinfo().getCity());
@@ -181,6 +188,10 @@ public class MyFacade {
         em.close();
 
         return list.toString();
+    }
+
+    private void EntityNotFoundException(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
