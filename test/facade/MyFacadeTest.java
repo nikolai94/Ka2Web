@@ -1,11 +1,21 @@
 package facade;
+import DTO.PersonDTO;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import entity.Address;
 import entity.Cityinfo;
 import entity.Company;
 import entity.Hobby;
 import entity.Person;
 import entity.Phone;
+import exceptions.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,12 +26,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- * @author petersodborgchristensen
- */
+
 public class MyFacadeTest {
-    
+    MyFacade f = new MyFacade();
+    Gson g = new Gson();
     public MyFacadeTest() {
     }
     
@@ -41,83 +49,75 @@ public class MyFacadeTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getPerson method, of class MyFacade.
-     * passed
-     */
-    @Test
-    public void testGetPerson() {
-        System.out.println("getPerson");
-        int id = 0;
-        MyFacade f = new MyFacade();
-        String expResult = "select * from TEST.INFOENTITY";
-        String result = "select * from TEST.INFOENTITY";
-        assertEquals(expResult, result);
 
+    public void testGetPersons_int() throws EntityNotFoundException {
+       
+       
+            Person  p = g.fromJson(f.getPerson(2), Person.class);
+
+            assertFalse("Fornavn MATCHER",  p.getFirstName().equals("bruger 1"));
+            assertFalse("EFTERNAVN MATCHER ",  p.getLastName().equals("bruger 1 efternavn"));
+            assertTrue("Fornavn MATCHER IKKE",  p.getFirstName().equals("bruger 2"));
+            assertTrue("Efternavn MATCHER IKKE",  p.getLastName().equals("bruger 2 efternavn"));
+     
     }
-
-    /**
-     * Test of addPerson method, of class MyFacade.
-     * Test passed
-     */
-    @Test
-    public void testAddPerson() {
-        System.out.println("addPerson");
-        Person person = new Person();
-        Phone phone = new Phone();
-        Address address = new Address();
-        Cityinfo cityInfo = new Cityinfo();
-        Hobby hobby = new Hobby();
-        String expResult = "";
-        String result = person.getEmail();
-        if(result != null){
-        assertEquals(expResult, result);
-        }
+    
+    
+     @Test
+        public void getPersonsZip() throws EntityNotFoundException {
+        String id = "1600";
+        
+         String res = f.GetAllPersonsWhoLivesInZipcode(id);
+         
+         JsonArray o = new JsonParser().parse(res).getAsJsonArray();
+         JsonElement oo = o.get(0);
+         String fornavnFraFacade= oo.getAsJsonObject().get("firstname").getAsString();
+         String efternavnFraFacade = oo.getAsJsonObject().get("lastname").getAsString();
+         
+         assertTrue("Sizen på zips passer ikke",o.size() == 1);
+         assertTrue("fornavn matcher ikke", fornavnFraFacade.equals("bruger 2"));
+         assertTrue("Lastname matcher ikke", efternavnFraFacade.equals("bruger 2 efternavn"));
+ 
+      
     }
+        
+     @Test
+     public void getPersons() throws EntityNotFoundException
+     {
+         String res = f.getPersons();
+         
+         JsonArray o = new JsonParser().parse(res).getAsJsonArray();
+         
+         assertTrue("ingen persons fundet", o.size() != 0);
+     }
 
-    /**
-     * Test of getPersons method, of class MyFacade.
-     * Test passed
-     */
-    @Test
-    public void testGetPersons_0args() {
-        System.out.println("getPersons");
-        MyFacade instance = new MyFacade();
-        Person p = new Person();
-        String expResult = p.getFirstName();
-        String result = instance.getPersons();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of getPersons method, of class MyFacade.
-     */
-    @Test
-    public void testGetPersons_int() {
-        System.out.println("getPersons");
-        int zipCode = 0;
-        Person p2 = new Person();
-        MyFacade instance = new MyFacade();
-        String expResult = "SELECT Persons FROM Person WHERE name = :zipCode";
-        List<Person> result = instance.getPersons(zipCode);
-        assertEquals(expResult, result);
-
-    }
-    /**
-     * Test of getCompany method, of class MyFacade.
-     */
-    @Test
-    public void testGetCompany() {
-        System.out.println("getCompany");
-        int cvr = 0;
-        MyFacade instance = new MyFacade();
-        String expResult = new Company().getCvr();
-        Company result = instance.getCompany(cvr);
-        if(expResult != null){
-        assertEquals(expResult, result);
-
-        }
-
-    }
+     @Test
+     public void Getzip() throws EntityNotFoundException
+     {
+        String zipsJson = f.getZip();
+        
+        JsonArray o = new JsonParser().parse(zipsJson).getAsJsonArray();
+         JsonElement oo = o.get(0);
+         assertTrue("Zips str passer ikke", o.size() == 1352);  
+     }
+     
+     @Test
+     public void addPerson() throws EntityNotFoundException
+     {
+         PersonDTO personDto = new PersonDTO("Jonathan", "Champen", "kongevejen", "18 b", "bla@hej.dk", "2400", "Nordvest");
+         
+         String res1 = f.getPersons();
+         JsonArray o1 = new JsonParser().parse(res1).getAsJsonArray();
+         int size = o1.size();
+         f.addPersonDto(personDto);
+         
+         String res2 = f.getPersons();
+         JsonArray o2 = new JsonParser().parse(res2).getAsJsonArray();
+         assertTrue("Størrelsen er ikke blevet større",size< o2.size() );
+       
+     }
+  
+    
+   
     
 }
