@@ -55,39 +55,7 @@ public class MyFacade {
 
     }
 
-    public void addPerson(Person person, Phone phone, Address address, Cityinfo cityInfo, Hobby hobby) {
-        em = emf.createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-
-            phone.AddPhoneToInfoEntity(person);
-            person.addPhone(phone);
-
-            person.addAddress(address);
-
-            address.addCityInfo(cityInfo);
-
-            hobby.addPerson(person);
-
-            em.persist(person);
-
-            em.persist(phone);
-
-            em.persist(address);
-
-            em.persist(cityInfo);
-
-            em.persist(hobby);
-
-            em.getTransaction().commit();
-
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-        }
-        em.close();
-
-    }
+   
 
     public void addPersonDto(PersonDTO dto) {
         em = emf.createEntityManager();
@@ -102,10 +70,7 @@ public class MyFacade {
         }
         Address a = new Address(dto.getStreet(),dto.getAdditionalinfo());
         
-        //System.out.println("getCityInfo"+getCityInfo(dto.getZipcode()) );
-        
         a.addCityInfo(em.find(Cityinfo.class,dto.getZipcode() ));
-        //a.addCityInfo(new Cityinfo("test", "test"));
         person.setAddress(a);
           
         
@@ -162,22 +127,7 @@ public class MyFacade {
 
     }
 
-    public String getPersons(int zipCode) {
-        em = emf.createEntityManager();
-        String q = "SELECT Persons FROM Person WHERE name = :zipCode";
-
-        List<Person> list = em.createQuery(q).getResultList();
-        String json = new Gson().toJson(list);
-        em.close();
-        return json;
-    }
-
-    public Company getCompany(int cvr) {
-        em = emf.createEntityManager();
-        Company c = em.find(Company.class, cvr);
-        em.close();
-        return c;
-    }
+   
 
     public String getZip() {
         em = emf.createEntityManager();

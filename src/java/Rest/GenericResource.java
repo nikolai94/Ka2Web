@@ -94,4 +94,16 @@ public class GenericResource {
     @Consumes("application/json")
     public void putJson(String content) {
     }
+    
+    
+  @POST
+  @Produces("application/json")
+  @Consumes("application/json")
+  public void AddPerson(String jsonPerson)  {
+      
+     Gson g = new Gson();
+     facade.addPersonDto(g.fromJson(jsonPerson, PersonDTO.class));
+    
+  }
+    
 }

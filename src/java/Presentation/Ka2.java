@@ -44,7 +44,7 @@ public class Ka2 {
         p.addPhone(222222, "blejaijiad222");
         p.addHobby("addhobby2", "aksdokaosd");
         
-        f.addPersonDto(p);
+       // f.addPersonDto(p);
         
         
         
@@ -60,7 +60,7 @@ public class Ka2 {
         
         
         
-      //System.out.println("person " +f.GetAllPersonsWhoLivesInZipcode("1600"));
+      System.out.println("person " +f.GetAllPersonsWhoLivesInZipcode("1600"));
    
 
 
