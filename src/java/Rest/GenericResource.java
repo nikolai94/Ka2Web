@@ -40,7 +40,7 @@ public class GenericResource {
     @GET
     @Path("getzip")
     @Produces("application/json")
-    public String getJsonZip() {
+    public String getJsonZip() throws EntityNotFoundException {
         return facade.getZip();
     }
 
@@ -60,7 +60,7 @@ public class GenericResource {
     @GET
     @Path("complete")
     @Produces("application/json")
-    public String getJsonGetAllPersons() {
+    public String getJsonGetAllPersons() throws EntityNotFoundException {
          return facade.getPersons();
     }
     
@@ -101,34 +101,11 @@ public class GenericResource {
   @POST
   @Produces("application/json")
   @Consumes("application/json")
-  public void AddPerson(String jsonPerson)  {
+  public void AddPerson(String jsonPerson) throws EntityNotFoundException  {
       
      Gson g = new Gson();
      facade.addPersonDto(g.fromJson(jsonPerson, PersonDTO.class));
     
   }
-
-    @Path("/users/{id}")
-    @GET
-    public Response getUserBId  ( @PathParam("id") String id ) throws EntityNotFoundException
-    {
-        //validate mandatory field
-        if(id == null)
-        {
-            throw new EntityNotFoundException("Idét eksisterer ikke");
-        }
-        //Validate proper format
-        try
-        {
-            Integer.parseInt(id);
-        }
-        catch(NumberFormatException e)
-        {
-            throw new EntityNotFoundException("id er ikke et nummer !!");
-        }
-        //Process the request
-        return Response.ok().entity("User with ID " + id + " fundet !!").build();
-    }
-
     
 }
