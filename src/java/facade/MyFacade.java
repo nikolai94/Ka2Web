@@ -92,23 +92,31 @@ public class MyFacade {
     public void addPersonDto(PersonDTO dto) {
         em = emf.createEntityManager();
         Person person = new Person(dto.getEmail(), dto.getFirstname(), dto.getLastname());
+     
         for (DTO.PersonDTO.Phone phone : dto.getPhones()) {
             //Phone phone = new Phone(dto.getPhones().get(i));
             Phone p = new Phone(phone.getNumber(), phone.getDescription());
-            person.addPhone(p);
+            p.AddPhoneToInfoEntity(person);
+           person.addPhone(p);
 
         }
         Address a = new Address(dto.getStreet(),dto.getAdditionalinfo());
-        a.setCityinfo(getCityInfo(dto.getZipcode()));
-                
         
-       // try {
+        //System.out.println("getCityInfo"+getCityInfo(dto.getZipcode()) );
+        
+        a.addCityInfo(em.find(Cityinfo.class,dto.getZipcode() ));
+        //a.addCityInfo(new Cityinfo("test", "test"));
+        person.setAddress(a);
+          
+        
+       try {
+           
             em.getTransaction().begin();
             em.persist(person);
             em.getTransaction().commit();
-        //} catch (Exception e) {
-          //  em.getTransaction().rollback();
-        //}
+        } catch (Exception e) {
+           em.getTransaction().rollback();
+        }
         
         
         em.close();
@@ -178,7 +186,6 @@ public class MyFacade {
         
         List<Cityinfo> list = em.createQuery(q).getResultList();
         List<CityinfoDTO> listdto = new ArrayList<>();
-        System.out.println(list);
         for (Cityinfo ci : list) {
             CityinfoDTO cityinfodto = new CityinfoDTO(ci.getZipcode(),ci.getCity());
             listdto.add(cityinfodto);
@@ -186,7 +193,6 @@ public class MyFacade {
         em.close();
 
         String jsonStr = gson.toJson(listdto);
-        System.out.println(jsonStr);
         return jsonStr;
     }
 

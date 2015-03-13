@@ -1,4 +1,4 @@
-package Rest;
+package rest;
 import DTO.PersonDTO;
 import com.google.gson.Gson;
 import entity.*;
@@ -40,7 +40,6 @@ public class GenericResource {
     @Path("getzip")
     @Produces("application/json")
     public String getJsonZip() {
-        
         return facade.getZip();
     }
 

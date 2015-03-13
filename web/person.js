@@ -24,10 +24,31 @@ $("document").ready(function (){
  $("#submit_allOnZip").click(findOnZip);
  $("#findAllPerson").click(findAllPerson);
  $("#findAllZip").click(findAllZips);
+ $("#submit_personOnId").click(findPersonOnId);
 
 });
 
+
+function findPersonOnId(){
+      var value = $( '#personOnId' ).val();
+     var request = $.ajax({
+     url : "api/complete/"+value,
+     dataType : "json",
+     type : "GET"
+     });
+    
+     request.done(function(Person){
+      $("#bodyGetPersons").html("<tr><td>"+ Person.firstName +"</td><td>"+ Person.lastName +"</td><td>"+ Person.street+"</td><td>"+Person.additionalInfo+"</td><td></td><td>"+ Person.email+"</td><td>"+Person.phones[0].number+"</td><td>"+Person.zipCode+"</td><td>"+Person.city +"</td></tr>");
+     });   
+     
+       request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+       });
+}
+
+
 function findAllZips(){
+    $("#bodyGetZip").text(" ");
     
      var request = $.ajax({
      url : "api/getzip",
@@ -37,10 +58,17 @@ function findAllZips(){
      
      request.done(function(Zip){
             for (var i = 0; i < Zip.length; i++) {
-                //Zip[i].
-            }
-     }); 
+               var insertText ="<tr>";
+                insertText +="<td>"+ Zip[i].city+"</td>";
+                insertText +="<td>"+ Zip[i].zipcode+"</td>";
+                insertText +="</tr>";
+                $("#bodyGetZip").append(insertText);
     
+         }
+     }); 
+        request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+       });
     
 }
             
@@ -48,7 +76,7 @@ function findOnZip(){
      $("#bodyGetPersons").text(" ");
      var value = $( '#zipcode' ).val();
      var request = $.ajax({
-     url : "api/getPersonOnZip/"+value,
+     url : "api/getpersononzip/"+value,
      dataType : "json",
      type : "GET"
      });

@@ -30,10 +30,13 @@ public class Ka2 {
 //        f.addPerson(p, phone, add, cityInfo, hobby);
         
         
-        f.getZip();
+        //System.out.println(f.getZip());
 
    
         //System.out.println("testGetPersonOnId:"+  f.getPerson(1) );
+        
+        
+        
         PersonDTO p = new PersonDTO("firstname", "lastname", "street", "aditionalinfo", "email", "1600","city");
         
         p.addPhone(111111, "blejaijiad");
@@ -41,7 +44,11 @@ public class Ka2 {
         p.addPhone(222222, "blejaijiad222");
         p.addHobby("addhobby2", "aksdokaosd");
         
-       // f.addPersonDto(p);
+        f.addPersonDto(p);
+        
+        
+        
+        
         
         //Gson gson = new Gson();
         

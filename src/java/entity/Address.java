@@ -7,7 +7,9 @@ package entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +31,9 @@ public class Address implements Serializable {
     
     //City info
     
+    
+    
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Cityinfo cityinfo;
     
     //
@@ -74,9 +79,7 @@ public class Address implements Serializable {
         return cityinfo;
     }
 
-    public void setCityinfo(Cityinfo cityinfo) {
-        this.cityinfo = cityinfo;
-    }
+    
     
     
     

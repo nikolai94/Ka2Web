@@ -31,7 +31,7 @@ public class InfoEntity implements Serializable {
     @OneToMany(mappedBy = "infoEntity", cascade = CascadeType.PERSIST)
     List <Phone> Phones = new  ArrayList();
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST ) 
     private Address address; 
     
     public Address getAddress()
@@ -44,6 +44,10 @@ public class InfoEntity implements Serializable {
 
     public InfoEntity(String email) {
         this.email = email;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     

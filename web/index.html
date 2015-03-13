@@ -8,6 +8,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
          <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+         
+         
         <script type="text/javascript" src="person.js"/></script>
 
     </head>
@@ -16,18 +18,32 @@
         <div class="container-fluid">     
             <div style=" float:left; width: 300px; height: 500px;" id="container">
     
+                <!-- søg på person med postnr -->
                 <input type="text" name="zipcode" placeholder="post nr fx: 1600." id="zipcode">
                 <br/>
                 <input type="submit" value="Find alle på postnr" name="submit_allOnZip" id="submit_allOnZip">
                  <br/><br/><br/>
+                
+                
+                 <!-- søg på personer med id  -->
+                <input type="text" name="personOnId" placeholder="id fx: 1." id="personOnId">
+                <br/>
+                <input type="submit" value="Find alle på id" name="submit_personOnId" id="submit_personOnId">
+                
+                 
+                 
+                <!-- find alle personer -->
+                 <br/><br/><br/>
                  <input type="submit" value="Find alle personer" name="findAllPerson" id="findAllPerson">
                  
+                 <!-- find alle postnummer -->
                   <br/><br/><br/>
                  <input type="submit" value="Find alle postnummer" name="findAllZip" id="findAllZip">
                  
             </div>    
 
    <div style="float:left; min-width: 500px; height: 500px; background-color: #fff;" id="info">
+       <h1 class="">Person</h1>
        <table class="table">
                 <thead>
                     <tr><th>FirstName</th> <th>LastName</th> <th>Street</th> <th>Additionalinfo</th> <th>Hobbies</th> <th>Email</th>  <th>Phones</th> <th>Zipcode</th> <th>City</th> </tr> 
@@ -37,6 +53,9 @@
                 </tbody>
        </table>
        
+       
+       <br/><br/><br/>
+       <h1 class="">Post</h1>
        <table class="table">
                 <thead>
                     <tr><th>By navn:</th> <th>Post nr:</th> </tr> 

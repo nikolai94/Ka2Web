@@ -27,7 +27,7 @@ public class Person extends InfoEntity implements Serializable {
   
 
     
-    @ManyToMany(mappedBy = "listPerson",fetch=FetchType.EAGER, cascade = CascadeType.PERSIST) 
+    @ManyToMany(mappedBy = "listPerson",fetch=FetchType.EAGER) 
     private List<Hobby> hobbys;
    
     
