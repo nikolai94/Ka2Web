@@ -1,4 +1,5 @@
 package exceptions;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javax.servlet.ServletContext;
@@ -18,11 +19,11 @@ public class EntityNotFoundExceptionMapper implements ExceptionMapper<EntityNotF
 
     @Override
     public Response toResponse(EntityNotFoundException ex) {
-    boolean isDebug = false; //context.getInitParameter("debug").equals("true");
+    boolean isDebug = false;//context.getInitParameter("debug").equals("true");
     ErrorMessage err = new ErrorMessage(ex,404,isDebug);
     err.getCode();
     err.getMessage();
-    err.setDescription("Det indtastede fandtes ikke i databasen");
+    err.setDescription("Du prøvede at kalde....");
     err.getDescription();
     err.getStackTrace();
     
